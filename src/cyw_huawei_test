@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+int main()
+{
+    vector<string> v;
+    string str;
+    int maxline;
+    getline(cin, str);
+    cin>>maxline;
+    cout<<str<<endl;
+    cout<<maxline<<endl;
+
+    vector<char> line(maxline);
+    int idx=0;
+    
+    int len=str.length();
+    int i=0;
+    while (i<len) {
+        line[idx++]=str[i++];
+        if (idx == maxline) {
+            if (line[idx-1] == ' ') {
+                v.push_back(string(begin(line), end(line)));
+                idx=0;
+            }
+            else if (line[idx-2]==' ') {
+                v.push_back(string(begin(line), end(line)-1));
+                idx=0;
+                i--;
+            }
+            else if (i==len || str[i]==' ') {
+                v.push_back(string(begin(line), end(line)));
+                idx=0;
+            }
+            else {
+                line[idx-1]='-';
+                v.push_back(string(begin(line), end(line)));
+                idx=0;
+                i--;
+            }
+        }
+    }
+    
+    if (idx != 0)
+        v.push_back(string(begin(line), begin(line)+idx));
+    
+    for (auto it : v)
+        cout<<'{'<<it<<'}'<<endl;
+
+    return 0;
+}
